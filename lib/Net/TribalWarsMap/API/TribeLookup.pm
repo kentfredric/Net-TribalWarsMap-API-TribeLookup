@@ -1,0 +1,231 @@
+
+use strict;
+use warnings;
+
+package Net::TribalWarsMap::API::TribeLookup;
+BEGIN {
+  $Net::TribalWarsMap::API::TribeLookup::AUTHORITY = 'cpan:KENTNL';
+}
+{
+  $Net::TribalWarsMap::API::TribeLookup::VERSION = '0.1.0';
+}
+
+# ABSTRACT: Query general information about tribes.
+
+
+
+use Carp qw(croak);
+use Moo;
+
+
+has 'ua' => (
+  is      => 'ro',
+  lazy    => 1,
+  builder => sub {
+    require Net::TribalWarsMap::API::HTTP;
+    return Net::TribalWarsMap::API::HTTP->new( cache_name => 'tribe_lookup_scraper' );
+  }
+);
+
+
+has 'decoder' => (
+  is      => 'ro',
+  lazy    => 1,
+  builder => sub {
+    require JSON;
+    return JSON->new();
+  },
+);
+
+
+has 'world' => (
+  is       => ro =>,
+  required => 1,
+);
+
+
+has search => (
+  is       => ro =>,
+  required => 1,
+  isa      => sub {
+    length( $_[0] ) >= 2 or croak "Tribe Lookups must have >2 characters";
+  },
+);
+
+
+has _ts => (
+  is      => ro =>,
+  lazy    => 1,
+  builder => sub {
+    require DateTime;
+    my $ds = DateTime->now();
+    return $ds->month_0 . '-' . $ds->day . '-' . $ds->hour;
+  },
+);
+
+
+has 'uri' => (
+  is      => ro => lazy => 1,
+  builder => sub {
+    sprintf q[http://%s.tribalwarsmap.com/data.php?type=tribesearch&q=%s&ms=%s] => ( $_[0]->world, $_[0]->search, $_[0]->_ts );
+  },
+);
+
+
+has _results => (
+  is      => ro =>,
+  lazy    => 1,
+  builder => sub {
+    my $result = $_[0]->ua->get( $_[0]->uri );
+    croak "failed to get data" if not $result->{success};
+    return $_[0]->decoder->decode( $result->{content} )->{'tribedata'};
+  },
+);
+
+
+
+has _decoded_results => (
+  is      => ro =>,
+  lazy    => 1,
+  builder => sub {
+    my $dr = $_[0]->_results;
+    require Net::TribalWarsMap::API::TribeLookup::Result;
+    my $out = {};
+    for my $tribe ( keys %{$dr} ) {
+      $out->{$tribe} = Net::TribalWarsMap::API::TribeLookup::Result->from_data_line( $tribe, @{ $dr->{$tribe} } );
+    }
+    return $out;
+  }
+);
+
+
+sub get_tag {
+  my ( $class, $world, $tag ) = @_;
+  my $search = substr $tag, 0, 2;
+  for my $tribe ( $class->search_tribes( $world, $search ) ) {
+    return $tribe if $tribe->tag eq $tag;
+  }
+  return;
+}
+
+
+sub search_tribes {
+  my ( $class, $world, $search , $filter ) = @_;
+  my $dr = $class->new( world => $world, search => $search );
+  if ( not $filter ) {
+      return values %{ $dr->_decoded_results };
+  }
+  return grep { $_->name =~ $filter } values %{ $dr->_decoded_results };
+}
+
+
+
+1;
+
+__END__
+
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Net::TribalWarsMap::API::TribeLookup - Query general information about tribes.
+
+=head1 VERSION
+
+version 0.1.0
+
+=head1 SYNOPSIS
+
+    # Tag based lookup
+    my $result = Net::TribalWarsMap::API::TribeLookup->get_tag('en69', 'kill');
+
+    # Generic search
+    my @results = Net::TribalWarsMap::API::TribeLookup->search_tribes('en69', 'Alex');
+
+    # generic search with name filter
+    my @results = Net::TribalWarsMap::API::TribeLookup->search_tribes('en69', 'lex',qr/^Alex/ );
+
+    # Advanced
+    my $instance = Net::TribalWarsMap::API::TribeLookup->new(
+        world => 'en69',
+        search => 'alex',
+    );
+    my $raw_results = $instance->_results;
+
+=head1 METHODS
+
+=head2 get_tag
+
+    my $result = $class->get_tag( $world, $tag );
+
+For example:
+
+    my $result = $class->get_tag('en69', 'kill');
+
+If C<$tag> is not found, C<undef> is returned.
+
+=head2 search_tribes
+
+    my @results = $class->search_tribes( $world, $search_string );
+
+or
+
+    my @results = $class->search_tribes( $world, $search_string , $name_filter_regexp );
+
+For instance:
+
+      my @results = $class->search_tribes( 'en69', 'kill' );
+
+will return all tribes in C<world en69> with the substring C<kill> in their tag or name.
+
+      my @results = $class->search_tribes( 'en69', 'kill' , qr/bar/);
+
+will return all tribes in C<world en69> with the substring C<kill> in their tag or name, where their name also matches
+
+      $tribe->name =~ qr/bar/
+
+=head1 ATTRIBUTES
+
+=head2 ua
+
+=head2 decoder
+
+=head2 world
+
+=head2 search
+
+=head2 uri
+
+=head1 PRIVATE ATTRIBUTES
+
+=head2 _ts
+
+=head2 _results
+
+=head2 _decoded_results
+
+=begin MetaPOD::JSON v1.1.0
+
+{
+    "namespace":"Net::TribalWarsMap::API::TribeLookup",
+    "interface":"class",
+    "inherits":"Moo::Object"
+}
+
+
+=end MetaPOD::JSON
+
+=head1 AUTHOR
+
+Kent Fredric <kentfredric@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2013 by Kent Fredric <kentfredric@gmail.com>.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut

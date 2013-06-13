@@ -1,0 +1,75 @@
+NAME
+    Net::TribalWarsMap::API::TribeLookup - Query general information about
+    tribes.
+
+VERSION
+    version 0.1.0
+
+SYNOPSIS
+        # Tag based lookup
+        my $result = Net::TribalWarsMap::API::TribeLookup->get_tag('en69', 'kill');
+
+        # Generic search
+        my @results = Net::TribalWarsMap::API::TribeLookup->search_tribes('en69', 'Alex');
+
+        # generic search with name filter
+        my @results = Net::TribalWarsMap::API::TribeLookup->search_tribes('en69', 'lex',qr/^Alex/ );
+
+        # Advanced
+        my $instance = Net::TribalWarsMap::API::TribeLookup->new(
+            world => 'en69',
+            search => 'alex',
+        );
+        my $raw_results = $instance->_results;
+
+METHODS
+  get_tag
+        my $result = $class->get_tag( $world, $tag );
+
+    For example:
+
+        my $result = $class->get_tag('en69', 'kill');
+
+    If $tag is not found, "undef" is returned.
+
+  search_tribes
+        my @results = $class->search_tribes( $world, $search_string );
+
+    or
+
+        my @results = $class->search_tribes( $world, $search_string , $name_filter_regexp );
+
+    For instance:
+
+          my @results = $class->search_tribes( 'en69', 'kill' );
+
+    will return all tribes in "world en69" with the substring "kill" in
+    their tag or name.
+
+          my @results = $class->search_tribes( 'en69', 'kill' , qr/bar/);
+
+    will return all tribes in "world en69" with the substring "kill" in
+    their tag or name, where their name also matches
+
+          $tribe->name =~ qr/bar/
+
+ATTRIBUTES
+  ua
+  decoder
+  world
+  search
+  uri
+PRIVATE ATTRIBUTES
+  _ts
+  _results
+  _decoded_results
+AUTHOR
+    Kent Fredric <kentfredric@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2013 by Kent Fredric
+    <kentfredric@gmail.com>.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
