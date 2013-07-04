@@ -32,6 +32,10 @@ requires:
   perl: v5.10.0
   strict: 0
   warnings: 0
+resources:
+  bugtracker: https://github.com/kentfredric/Net-TribalWarsMap-API-TribeLookup/issues
+  homepage: https://github.com/kentfredric/Net-TribalWarsMap-API-TribeLookup
+  repository: https://github.com/kentfredric/Net-TribalWarsMap-API-TribeLookup.git
 version: 0.1.0
 x_BuiltWith:
   modules:
