@@ -155,27 +155,27 @@ version 0.1.0
 
 =head1 METHODS
 
-=head2 ua
+=head2 C<ua>
 
     my $ua = $instance->ua;
 
-=head2 decoder
+=head2 C<decoder>
 
     my $decoder = $instance->decoder();
 
-=head2 world
+=head2 C<world>
 
     my $world = $instance->world(); # en67 or similar
 
-=head2 search
+=head2 C<search>
 
     my $search = $instance->search();
 
-=head2 uri
+=head2 C<uri>
 
     my $search_uri = $class->new( world => ... , search => ... )->uri;
 
-=head2 get_tag
+=head2 C<get_tag>
 
     my $result = $class->get_tag( $world, $tag );
 
@@ -185,7 +185,7 @@ For example:
 
 If C<$tag> is not found, C<undef> is returned.
 
-=head2 search_tribes
+=head2 C<search_tribes>
 
     my @results = $class->search_tribes( $world, $search_string );
 
@@ -207,7 +207,7 @@ will return all tribes in C<world en69> with the substring C<kill> in their tag 
 
 =head1 ATTRIBUTES
 
-=head2 ua
+=head2 C<ua>
 
 The HTTP User Agent to use for requests.
 
@@ -217,7 +217,7 @@ Default is a L<< C<Net::TribalWarsMap::API::HTTP>|Net::TribalWarsMap::API::HTTP 
     ...
     my $ua = $instance->ua();
 
-=head2 decoder
+=head2 C<decoder>
 
 The JSON Decoder object
 
@@ -225,7 +225,7 @@ The JSON Decoder object
         decoder => JSON->new()
     );
 
-=head2 world
+=head2 C<world>
 
 B<MANDATORY PARAMETER>:
 
@@ -233,11 +233,11 @@ B<MANDATORY PARAMETER>:
 
 This will be something like C<en67>, and is the prefix used in domain URI's.
 
-=head2 search
+=head2 C<search>
 
     my $instance = $class->new( search => $string );
 
-=head2 uri
+=head2 C<uri>
 
 Normally this parameter is not required to be provided, and is instead
 composed by joining an existing base URI with C<world> C<search> and C<_ts>
@@ -246,17 +246,17 @@ composed by joining an existing base URI with C<world> C<search> and C<_ts>
 
 =head1 PRIVATE ATTRIBUTES
 
-=head2 _ts
+=head2 C<_ts>
 
     my $instance = $class->new( _ts => "mm-dd-yyy" );
 
-=head2 _results
+=head2 C<_results>
 
 Lazy builder that returns a json-decoded version of the result of fetching C<uri>.
 
     my $instance = $class->new( _results => { %complex_structure } );
 
-=head2 _decoded_results
+=head2 C<_decoded_results>
 
 Lazy builder that returns a Hash of Objects decoded from the result of C<_results>
 
@@ -268,15 +268,15 @@ Lazy builder that returns a Hash of Objects decoded from the result of C<_result
 
 =head1 PRIVATE METHODS
 
-=head2 _ts
+=head2 C<_ts>
 
     my $now = $instance->_ts;
 
-=head2 _results
+=head2 C<_results>
 
     my $raw_results = $instance->_results;
 
-=head2 _decoded_results
+=head2 C<_decoded_results>
 
     my %decoded_results = %{ $instance->_decoded_results };
 

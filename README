@@ -23,22 +23,22 @@ SYNOPSIS
         my $raw_results = $instance->_results;
 
 METHODS
-  ua
+  "ua"
         my $ua = $instance->ua;
 
-  decoder
+  "decoder"
         my $decoder = $instance->decoder();
 
-  world
+  "world"
         my $world = $instance->world(); # en67 or similar
 
-  search
+  "search"
         my $search = $instance->search();
 
-  uri
+  "uri"
         my $search_uri = $class->new( world => ... , search => ... )->uri;
 
-  get_tag
+  "get_tag"
         my $result = $class->get_tag( $world, $tag );
 
     For example:
@@ -47,7 +47,7 @@ METHODS
 
     If $tag is not found, "undef" is returned.
 
-  search_tribes
+  "search_tribes"
         my @results = $class->search_tribes( $world, $search_string );
 
     or
@@ -69,7 +69,7 @@ METHODS
           $tribe->name =~ qr/bar/
 
 ATTRIBUTES
-  ua
+  "ua"
     The HTTP User Agent to use for requests.
 
     Default is a "Net::TribalWarsMap::API::HTTP" instance.
@@ -78,14 +78,14 @@ ATTRIBUTES
         ...
         my $ua = $instance->ua();
 
-  decoder
+  "decoder"
     The JSON Decoder object
 
         my $instance = $class->new(
             decoder => JSON->new()
         );
 
-  world
+  "world"
     MANDATORY PARAMETER:
 
         my $instance = $class->new( world => $world_name );
@@ -93,26 +93,26 @@ ATTRIBUTES
     This will be something like "en67", and is the prefix used in domain
     URI's.
 
-  search
+  "search"
         my $instance = $class->new( search => $string );
 
-  uri
+  "uri"
     Normally this parameter is not required to be provided, and is instead
     composed by joining an existing base URI with "world" "search" and "_ts"
 
         my $instance = $class->new( uri => 'fully qualified search URI' );
 
 PRIVATE ATTRIBUTES
-  _ts
+  "_ts"
         my $instance = $class->new( _ts => "mm-dd-yyy" );
 
-  _results
+  "_results"
     Lazy builder that returns a json-decoded version of the result of
     fetching "uri".
 
         my $instance = $class->new( _results => { %complex_structure } );
 
-  _decoded_results
+  "_decoded_results"
     Lazy builder that returns a Hash of Objects decoded from the result of
     "_results"
 
@@ -123,13 +123,13 @@ PRIVATE ATTRIBUTES
         my $instance => $class->new( _decoded_results => { %complex_structure } );
 
 PRIVATE METHODS
-  _ts
+  "_ts"
         my $now = $instance->_ts;
 
-  _results
+  "_results"
         my $raw_results = $instance->_results;
 
-  _decoded_results
+  "_decoded_results"
         my %decoded_results = %{ $instance->_decoded_results };
 
 AUTHOR
