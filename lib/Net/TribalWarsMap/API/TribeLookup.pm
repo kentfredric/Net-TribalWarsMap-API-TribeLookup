@@ -24,7 +24,7 @@ has 'ua' => (
   builder => sub {
     require Net::TribalWarsMap::API::HTTP;
     return Net::TribalWarsMap::API::HTTP->new( cache_name => 'tribe_lookup_scraper' );
-  }
+  },
 );
 
 
@@ -48,7 +48,7 @@ has search => (
   is       => ro =>,
   required => 1,
   isa      => sub {
-    length( $_[0] ) >= 2 or croak "Tribe Lookups must have >2 characters";
+    length( $_[0] ) >= 2 or croak q[Tribe Lookups must have >2 characters];
   },
 );
 
@@ -59,7 +59,7 @@ has _ts => (
   builder => sub {
     require DateTime;
     my $ds = DateTime->now();
-    return $ds->month_0 . '-' . $ds->day . '-' . $ds->hour;
+    return sprintf q[%s-%s-%s], $ds->month_0, $ds->day, $ds->hour;
   },
 );
 
@@ -94,7 +94,7 @@ has _decoded_results => (
       $out->{$tribe} = Net::TribalWarsMap::API::TribeLookup::Result->from_data_line( $tribe, @{ $dr->{$tribe} } );
     }
     return $out;
-  }
+  },
 );
 
 
@@ -109,15 +109,13 @@ sub get_tag {
 
 
 sub search_tribes {
-  my ( $class, $world, $search , $filter ) = @_;
+  my ( $class, $world, $search, $filter ) = @_;
   my $dr = $class->new( world => $world, search => $search );
   if ( not $filter ) {
-      return values %{ $dr->_decoded_results };
+    return values %{ $dr->_decoded_results };
   }
   return grep { $_->name =~ $filter } values %{ $dr->_decoded_results };
 }
-
-
 
 1;
 
@@ -197,11 +195,11 @@ For instance:
 
       my @results = $class->search_tribes( 'en69', 'kill' );
 
-will return all tribes in C<world en69> with the substring C<kill> in their tag or name.
+will return all tribes in C<world en69> with the sub-string C<kill> in their tag or name.
 
       my @results = $class->search_tribes( 'en69', 'kill' , qr/bar/);
 
-will return all tribes in C<world en69> with the substring C<kill> in their tag or name, where their name also matches
+will return all tribes in C<world en69> with the sub-string C<kill> in their tag or name, where their name also matches
 
       $tribe->name =~ qr/bar/
 

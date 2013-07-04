@@ -58,12 +58,12 @@ METHODS
 
           my @results = $class->search_tribes( 'en69', 'kill' );
 
-    will return all tribes in "world en69" with the substring "kill" in
+    will return all tribes in "world en69" with the sub-string "kill" in
     their tag or name.
 
           my @results = $class->search_tribes( 'en69', 'kill' , qr/bar/);
 
-    will return all tribes in "world en69" with the substring "kill" in
+    will return all tribes in "world en69" with the sub-string "kill" in
     their tag or name, where their name also matches
 
           $tribe->name =~ qr/bar/
