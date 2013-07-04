@@ -23,6 +23,21 @@ SYNOPSIS
         my $raw_results = $instance->_results;
 
 METHODS
+  ua
+        my $ua = $instance->ua;
+
+  decoder
+        my $decoder = $instance->decoder();
+
+  world
+        my $world = $instance->world(); # en67 or similar
+
+  search
+        my $search = $instance->search();
+
+  uri
+        my $search_uri = $class->new( world => ... , search => ... )->uri;
+
   get_tag
         my $result = $class->get_tag( $world, $tag );
 
@@ -55,14 +70,68 @@ METHODS
 
 ATTRIBUTES
   ua
+    The HTTP User Agent to use for requests.
+
+    Default is a "Net::TribalWarsMap::API::HTTP" instance.
+
+        $instance->new( ua => $user_agent );
+        ...
+        my $ua = $instance->ua();
+
   decoder
+    The JSON Decoder object
+
+        my $instance = $class->new(
+            decoder => JSON->new()
+        );
+
   world
+    MANDATORY PARAMETER:
+
+        my $instance = $class->new( world => $world_name );
+
+    This will be something like "en67", and is the prefix used in domain
+    URI's.
+
   search
+        my $instance = $class->new( search => $string );
+
   uri
+    Normally this parameter is not required to be provided, and is instead
+    composed by joining an existing base URI with "world" "search" and "_ts"
+
+        my $instance = $class->new( uri => 'fully qualified search URI' );
+
 PRIVATE ATTRIBUTES
   _ts
+        my $instance = $class->new( _ts => "mm-dd-yyy" );
+
   _results
+    Lazy builder that returns a json-decoded version of the result of
+    fetching "uri".
+
+        my $instance = $class->new( _results => { %complex_structure } );
+
   _decoded_results
+    Lazy builder that returns a Hash of Objects decoded from the result of
+    "_results"
+
+        my %complex_structure = (
+            key => Net::TribalWarsMap::API::TribeLookup::Result->new(),
+            key2 => Net::TribalWarsMap::API::TribeLookup::Result->new(),
+        );
+        my $instance => $class->new( _decoded_results => { %complex_structure } );
+
+PRIVATE METHODS
+  _ts
+        my $now = $instance->_ts;
+
+  _results
+        my $raw_results = $instance->_results;
+
+  _decoded_results
+        my %decoded_results = %{ $instance->_decoded_results };
+
 AUTHOR
     Kent Fredric <kentfredric@gmail.com>
 

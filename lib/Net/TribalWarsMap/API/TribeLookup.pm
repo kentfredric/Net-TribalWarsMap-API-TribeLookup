@@ -83,7 +83,6 @@ has _results => (
 );
 
 
-
 has _decoded_results => (
   is      => ro =>,
   lazy    => 1,
@@ -156,6 +155,26 @@ version 0.1.0
 
 =head1 METHODS
 
+=head2 ua
+
+    my $ua = $instance->ua;
+
+=head2 decoder
+
+    my $decoder = $instance->decoder();
+
+=head2 world
+
+    my $world = $instance->world(); # en67 or similar
+
+=head2 search
+
+    my $search = $instance->search();
+
+=head2 uri
+
+    my $search_uri = $class->new( world => ... , search => ... )->uri;
+
 =head2 get_tag
 
     my $result = $class->get_tag( $world, $tag );
@@ -190,27 +209,82 @@ will return all tribes in C<world en69> with the substring C<kill> in their tag 
 
 =head2 ua
 
+The HTTP User Agent to use for requests.
+
+Default is a L<< C<Net::TribalWarsMap::API::HTTP>|Net::TribalWarsMap::API::HTTP >> instance.
+
+    $instance->new( ua => $user_agent );
+    ...
+    my $ua = $instance->ua();
+
 =head2 decoder
+
+The JSON Decoder object
+
+    my $instance = $class->new(
+        decoder => JSON->new()
+    );
 
 =head2 world
 
+B<MANDATORY PARAMETER>:
+
+    my $instance = $class->new( world => $world_name );
+
+This will be something like C<en67>, and is the prefix used in domain URI's.
+
 =head2 search
 
+    my $instance = $class->new( search => $string );
+
 =head2 uri
+
+Normally this parameter is not required to be provided, and is instead
+composed by joining an existing base URI with C<world> C<search> and C<_ts>
+
+    my $instance = $class->new( uri => 'fully qualified search URI' );
 
 =head1 PRIVATE ATTRIBUTES
 
 =head2 _ts
 
+    my $instance = $class->new( _ts => "mm-dd-yyy" );
+
 =head2 _results
 
+Lazy builder that returns a json-decoded version of the result of fetching C<uri>.
+
+    my $instance = $class->new( _results => { %complex_structure } );
+
 =head2 _decoded_results
+
+Lazy builder that returns a Hash of Objects decoded from the result of C<_results>
+
+    my %complex_structure = (
+        key => Net::TribalWarsMap::API::TribeLookup::Result->new(),
+        key2 => Net::TribalWarsMap::API::TribeLookup::Result->new(),
+    );
+    my $instance => $class->new( _decoded_results => { %complex_structure } );
+
+=head1 PRIVATE METHODS
+
+=head2 _ts
+
+    my $now = $instance->_ts;
+
+=head2 _results
+
+    my $raw_results = $instance->_results;
+
+=head2 _decoded_results
+
+    my %decoded_results = %{ $instance->_decoded_results };
 
 =begin MetaPOD::JSON v1.1.0
 
 {
     "namespace":"Net::TribalWarsMap::API::TribeLookup",
-    "interface":"class",
+    "interface":[ "class","single_class" ],
     "inherits":"Moo::Object"
 }
 

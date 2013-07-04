@@ -55,7 +55,7 @@ sub field_names {
 
 sub from_data_line {
   my ( $self, @fields ) = @_;
-  my (@names) = $self->_field_names;
+  my (@names) = $self->field_names;
   my $hash = {};
   for my $idx ( 0 .. $#names ) {
     my $key   = $names[$idx];

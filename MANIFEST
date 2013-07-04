@@ -8,6 +8,8 @@ META.yml
 README
 dist.ini
 examples/tribe_lookup.t
+layout/self_structure.dot
+layout/self_structure.png
 lib/Net/TribalWarsMap/API/TribeLookup.pm
 lib/Net/TribalWarsMap/API/TribeLookup/Result.pm
 perlcritic.rc

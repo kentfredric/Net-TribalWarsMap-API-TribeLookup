@@ -4,7 +4,7 @@ use warnings;
 use Net::TribalWarsMap::API::TribeLookup;
 use Data::Dump qw(pp);
 
-my @tags = qw( Kill G-D SKill SUCK );
+my @tags = qw( Sexy -WAR- ~WAR~ SF );
 
 my @tribes;
 

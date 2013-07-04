@@ -10,7 +10,7 @@ build_requires:
 configure_requires:
   Module::Build: 0.4005
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131490'
+generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -37,11 +37,11 @@ x_BuiltWith:
   modules:
     Carp: 1.29
     DateTime: 1.03
-    Dist::Zilla::PluginBundle::Author::KENTNL: 1.7.3
+    Dist::Zilla::PluginBundle::Author::KENTNL: 1.7.4
     Dist::Zilla::PluginBundle::Author::KENTNL::Lite: 'NA(possibly not installed)'
     File::Find: 1.23
     File::Temp: 0.2301
-    JSON: 2.58
+    JSON: 2.59
     Module::Build: 0.4005
     Moo: 1.002
     Net::TribalWarsMap::API::HTTP: 0.1.0
@@ -75,7 +75,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::NextVersion
       name: '@Author::KENTNL/Git::NextVersion'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::MetaConfig
       name: '@Author::KENTNL/MetaConfig'
@@ -108,7 +108,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::GatherDir
       name: '@Author::KENTNL/Git::GatherDir'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::License
       name: '@Author::KENTNL/License'
@@ -212,7 +212,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Author::KENTNL::MinimumPerl
       name: '@Author::KENTNL/Author::KENTNL::MinimumPerl'
-      version: 1.7.3
+      version: 1.7.4
     -
       class: Dist::Zilla::Plugin::Author::KENTNL::Prereqs::Latest::Selective
       name: '@Author::KENTNL/Author::KENTNL::Prereqs::Latest::Selective'
@@ -252,23 +252,23 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::Check
       name: '@Author::KENTNL/Git::Check'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Author::KENTNL/Git::Tag/tag_master'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::Git::Commit
       name: '@Author::KENTNL/Git::Commit'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::Git::CommitBuild
       name: '@Author::KENTNL/Git::CommitBuild'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Author::KENTNL/Git::Tag/tag_release'
-      version: 2.013
+      version: 2.014
     -
       class: Dist::Zilla::Plugin::UploadToCPAN
       name: '@Author::KENTNL/UploadToCPAN'
@@ -276,7 +276,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Twitter
       name: '@Author::KENTNL/Twitter'
-      version: 0.020
+      version: 0.021
     -
       class: Dist::Zilla::Plugin::Prereqs
       config:
