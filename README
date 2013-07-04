@@ -79,7 +79,7 @@ ATTRIBUTES
         my $ua = $instance->ua();
 
   "decoder"
-    The JSON Decoder object
+    The "JSON" Decoder object
 
         my $instance = $class->new(
             decoder => JSON->new()
@@ -91,7 +91,7 @@ ATTRIBUTES
         my $instance = $class->new( world => $world_name );
 
     This will be something like "en67", and is the prefix used in domain
-    URI's.
+    "URI"'s.
 
   "search"
         my $instance = $class->new( search => $string );
@@ -107,7 +107,7 @@ PRIVATE ATTRIBUTES
         my $instance = $class->new( _ts => "mm-dd-yyy" );
 
   "_results"
-    Lazy builder that returns a json-decoded version of the result of
+    Lazy builder that returns a "json"-decoded version of the result of
     fetching "uri".
 
         my $instance = $class->new( _results => { %complex_structure } );

@@ -219,7 +219,7 @@ Default is a L<< C<Net::TribalWarsMap::API::HTTP>|Net::TribalWarsMap::API::HTTP 
 
 =head2 C<decoder>
 
-The JSON Decoder object
+The C<JSON> Decoder object
 
     my $instance = $class->new(
         decoder => JSON->new()
@@ -231,7 +231,7 @@ B<MANDATORY PARAMETER>:
 
     my $instance = $class->new( world => $world_name );
 
-This will be something like C<en67>, and is the prefix used in domain URI's.
+This will be something like C<en67>, and is the prefix used in domain C<URI>'s.
 
 =head2 C<search>
 
@@ -252,7 +252,7 @@ composed by joining an existing base URI with C<world> C<search> and C<_ts>
 
 =head2 C<_results>
 
-Lazy builder that returns a json-decoded version of the result of fetching C<uri>.
+Lazy builder that returns a C<json>-decoded version of the result of fetching C<uri>.
 
     my $instance = $class->new( _results => { %complex_structure } );
 
