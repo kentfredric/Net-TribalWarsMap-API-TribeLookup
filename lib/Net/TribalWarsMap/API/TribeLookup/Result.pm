@@ -158,7 +158,7 @@ B<Note:> Upstream have their data in the following form:
 
 While this function takes:
 
-          "$id", $total_points , ... 
+          "$id", $total_points , ...
 
 =head2 C<od_ratio>
 
