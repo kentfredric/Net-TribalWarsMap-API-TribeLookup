@@ -15,47 +15,47 @@ BEGIN {
 use Moo;
 
 
-has 'id'           => ( is => ro =>, required => 1 );
+has 'id' => ( is => ro =>, required => 1 );
 
 
-has 'members'      => ( is => ro =>, required => 1 );
+has 'members' => ( is => ro =>, required => 1 );
 
 
-has 'name'         => ( is => ro =>, required => 1 );
+has 'name' => ( is => ro =>, required => 1 );
 
 
-has 'oda'          => ( is => ro =>, required => 1 );
+has 'oda' => ( is => ro =>, required => 1 );
 
 
-has 'oda_rank'     => ( is => ro =>, required => 1 );
+has 'oda_rank' => ( is => ro =>, required => 1 );
 
 
-has 'odd'          => ( is => ro =>, required => 1 );
+has 'odd' => ( is => ro =>, required => 1 );
 
 
-has 'odd_rank'     => ( is => ro =>, required => 1 );
+has 'odd_rank' => ( is => ro =>, required => 1 );
 
 
-has 'points'       => ( is => ro =>, required => 1 );
+has 'points' => ( is => ro =>, required => 1 );
 
 
-has 'rank'         => ( is => ro =>, required => 1 );
+has 'rank' => ( is => ro =>, required => 1 );
 
 
-has 'tag'          => ( is => ro =>, required => 1 );
+has 'tag' => ( is => ro =>, required => 1 );
 
 
 has 'total_points' => ( is => ro =>, required => 1 );
 
 
-sub field_names {
+sub _field_names {
   return qw( id  total_points members tag points rank oda odd oda_rank odd_rank name );
 }
 
 
 sub from_data_line {
   my ( $self, @fields ) = @_;
-  my (@names) = $self->field_names;
+  my (@names) = $self->_field_names;
   my $hash = {};
   for my $idx ( 0 .. $#names ) {
     my $key   = $names[$idx];
@@ -68,40 +68,39 @@ sub from_data_line {
 
 
 sub od_ratio {
-    my ( $self ) = @_; 
-    return sprintf '%0.3f' , $self->oda / $self->odd
+  my ($self) = @_;
+  return sprintf '%0.3f', $self->oda / $self->odd;
 }
 
 
 sub od_point_ratio {
-    my ( $self ) = @_; 
-    return sprintf '%0.3f' , ( $self->oda + $self->odd ) / $self->points;
+  my ($self) = @_;
+  return sprintf '%0.3f', ( $self->oda + $self->odd ) / $self->points;
 }
 
 
 sub avg_od {
-    my ( $self ) = @_ ; 
-    return sprintf '%0.3f', ( $self->oda + $self->odd ) / $self->members;
+  my ($self) = @_;
+  return sprintf '%0.3f', ( $self->oda + $self->odd ) / $self->members;
 }
 
 
 sub avg_oda {
-    my ( $self, ) = @_;
-    return sprintf '%0.3f',  $self->oda   / $self->members;
+  my ( $self, ) = @_;
+  return sprintf '%0.3f', $self->oda / $self->members;
 
 }
 
 
-
 sub avg_odd {
-    my ( $self, ) = @_;
-    return sprintf '%0.3f',  $self->odd   / $self->members;
+  my ( $self, ) = @_;
+  return sprintf '%0.3f', $self->odd / $self->members;
 }
 
 
 sub avg_points {
-    my ( $self ) = @_ ; 
-    return sprintf '%0.3f', $self->points  / $self->members;
+  my ($self) = @_;
+  return sprintf '%0.3f', $self->points / $self->members;
 }
 
 1;
@@ -121,6 +120,28 @@ Net::TribalWarsMap::API::TribeLookup::Result - A single tribe search result
 version 0.1.0
 
 =head1 METHODS
+
+=head2 C<id>
+
+=head2 C<members>
+
+=head2 C<name>
+
+=head2 C<oda>
+
+=head2 C<oda_rank>
+
+=head2 C<odd>
+
+=head2 C<odd_rank>
+
+=head2 C<points>
+
+=head2 C<rank>
+
+=head2 C<tag>
+
+=head2 C<total_points>
 
 =head2 C<from_data_line>
 

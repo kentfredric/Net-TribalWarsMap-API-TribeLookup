@@ -77,7 +77,7 @@ has _results => (
   lazy    => 1,
   builder => sub {
     my $result = $_[0]->ua->get( $_[0]->uri );
-    croak "failed to get data" if not $result->{success};
+    croak q[failed to get data] if not $result->{success};
     return $_[0]->decoder->decode( $result->{content} )->{'tribedata'};
   },
 );
