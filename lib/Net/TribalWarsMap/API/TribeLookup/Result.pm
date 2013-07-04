@@ -21,65 +21,87 @@ use Moo;
 
 =attr C<id>
 
+=method C<id>
+
 =cut
 
-has 'id'           => ( is => ro =>, required => 1 );
+has 'id' => ( is => ro =>, required => 1 );
 
 =attr C<members>
 
+=method C<members>
+
 =cut
 
-has 'members'      => ( is => ro =>, required => 1 );
+has 'members' => ( is => ro =>, required => 1 );
 
 =attr C<name>
 
+=method C<name>
+
 =cut
 
-has 'name'         => ( is => ro =>, required => 1 );
+has 'name' => ( is => ro =>, required => 1 );
 
 =attr C<oda>
 
+=method C<oda>
+
 =cut
 
-has 'oda'          => ( is => ro =>, required => 1 );
+has 'oda' => ( is => ro =>, required => 1 );
 
 =attr C<oda_rank>
 
+=method C<oda_rank>
+
 =cut
 
-has 'oda_rank'     => ( is => ro =>, required => 1 );
+has 'oda_rank' => ( is => ro =>, required => 1 );
 
 =attr C<odd>
 
+=method C<odd>
+
 =cut
 
-has 'odd'          => ( is => ro =>, required => 1 );
+has 'odd' => ( is => ro =>, required => 1 );
 
 =attr C<odd_rank>
 
+=method C<odd_rank>
+
 =cut
 
-has 'odd_rank'     => ( is => ro =>, required => 1 );
+has 'odd_rank' => ( is => ro =>, required => 1 );
 
 =attr C<points>
 
+=method C<points>
+
 =cut
 
-has 'points'       => ( is => ro =>, required => 1 );
+has 'points' => ( is => ro =>, required => 1 );
 
 =attr C<rank>
 
+=method C<rank>
+
 =cut
 
-has 'rank'         => ( is => ro =>, required => 1 );
+has 'rank' => ( is => ro =>, required => 1 );
 
 =attr C<tag>
 
+=method C<tag>
+
 =cut
 
-has 'tag'          => ( is => ro =>, required => 1 );
+has 'tag' => ( is => ro =>, required => 1 );
 
 =attr C<total_points>
+
+=method C<total_points>
 
 =cut
 
@@ -89,7 +111,7 @@ has 'total_points' => ( is => ro =>, required => 1 );
 
 =cut
 
-sub field_names {
+sub _field_names {
   return qw( id  total_points members tag points rank oda odd oda_rank odd_rank name );
 }
 
@@ -108,18 +130,18 @@ B<Note:> Upstream have their data in the following form:
 
 While this function takes:
 
-          "$id", $total_points , ... 
+          "$id", $total_points , ...
 
 =cut
 
 sub from_data_line {
   my ( $self, @fields ) = @_;
-  my (@names) = $self->field_names;
+  my (@names) = $self->_field_names;
   my $hash = {};
   for my $idx ( 0 .. $#names ) {
     my $key   = $names[$idx];
     my $value = $fields[$idx];
-    next if $key =~ /^\?/;
+    next if $key =~ /\A[?]/msx;
     $hash->{$key} = $value;
   }
   return $self->new($hash);
@@ -130,8 +152,8 @@ sub from_data_line {
 =cut
 
 sub od_ratio {
-    my ( $self ) = @_; 
-    return sprintf '%0.3f' , $self->oda / $self->odd
+  my ($self) = @_;
+  return sprintf '%0.3f', $self->oda / $self->odd;
 }
 
 =method C<od_point_ratio>
@@ -139,8 +161,8 @@ sub od_ratio {
 =cut
 
 sub od_point_ratio {
-    my ( $self ) = @_; 
-    return sprintf '%0.3f' , ( $self->oda + $self->odd ) / $self->points;
+  my ($self) = @_;
+  return sprintf '%0.3f', ( $self->oda + $self->odd ) / $self->points;
 }
 
 =method C<avg_od>
@@ -148,8 +170,8 @@ sub od_point_ratio {
 =cut
 
 sub avg_od {
-    my ( $self ) = @_ ; 
-    return sprintf '%0.3f', ( $self->oda + $self->odd ) / $self->members;
+  my ($self) = @_;
+  return sprintf '%0.3f', ( $self->oda + $self->odd ) / $self->members;
 }
 
 =method C<avg_oda>
@@ -157,8 +179,8 @@ sub avg_od {
 =cut
 
 sub avg_oda {
-    my ( $self, ) = @_;
-    return sprintf '%0.3f',  $self->oda   / $self->members;
+  my ( $self, ) = @_;
+  return sprintf '%0.3f', $self->oda / $self->members;
 
 }
 
@@ -166,10 +188,9 @@ sub avg_oda {
 
 =cut
 
-
 sub avg_odd {
-    my ( $self, ) = @_;
-    return sprintf '%0.3f',  $self->odd   / $self->members;
+  my ( $self, ) = @_;
+  return sprintf '%0.3f', $self->odd / $self->members;
 }
 
 =method C<avg_points>
@@ -177,8 +198,8 @@ sub avg_odd {
 =cut
 
 sub avg_points {
-    my ( $self ) = @_ ; 
-    return sprintf '%0.3f', $self->points  / $self->members;
+  my ($self) = @_;
+  return sprintf '%0.3f', $self->points / $self->members;
 }
 
 1;
