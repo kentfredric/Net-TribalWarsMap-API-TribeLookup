@@ -60,7 +60,7 @@ sub from_data_line {
   for my $idx ( 0 .. $#names ) {
     my $key   = $names[$idx];
     my $value = $fields[$idx];
-    next if $key =~ /\A\?/msx;
+    next if $key =~ /\A[?]/msx;
     $hash->{$key} = $value;
   }
   return $self->new($hash);
